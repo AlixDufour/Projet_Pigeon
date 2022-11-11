@@ -20,4 +20,6 @@ public class Nourriture {
 		return;
 	}
 
+	// public
+
 }
