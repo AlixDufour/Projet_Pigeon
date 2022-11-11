@@ -14,14 +14,13 @@ public class Main extends Application {
 
 		StackPane pane = new StackPane(); // container for shapes
 		PigeonThread mr = new PigeonThread(); // make new shapes on other thread
-		// PigeonThread ms = new PigeonThread();
+		PigeonThread ms = new PigeonThread();
 		
 		if (!(mr.getShape() == null))
 			Platform.runLater(() -> pane.getChildren().add(mr.getShape()));
-		/*
-		 * if (!(ms.getShape() == null)) Platform.runLater(() ->
-		 * pane.getChildren().add(ms.getShape()));
-		 */
+
+		if (!(ms.getShape() == null))
+			Platform.runLater(() -> pane.getChildren().add(ms.getShape()));
 
 		Scene scene = new Scene(pane, 1000, 700);
 		primaryStage.setScene(scene);
@@ -29,7 +28,7 @@ public class Main extends Application {
 		primaryStage.sizeToScene();
 
 		mr.start();
-		// ms.start();
+		ms.start();
 	}
 
 	public static void main(String[] args) {
