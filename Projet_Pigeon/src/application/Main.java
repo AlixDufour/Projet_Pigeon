@@ -44,19 +44,20 @@ class myframe extends JFrame
 class mypanel extends JPanel
 {
 
-	ArrayList<Nourriture> listNourritures;
+	public ArrayList<Nourriture> listNourritures;
 	
     Pigeon pig;
     Pigeon pig2;
     
     mypanel()
     {
-        pig = new Pigeon(150,50);
-        pig2 = new Pigeon(50,50);
+        pig = new Pigeon(150,50, this);
+        pig2 = new Pigeon(50,50, this);
         this.listNourritures = new ArrayList<>();
     }
 
     public void test(){
+    	//pig.checkNourriture(listNourritures);
         repaint();
     }
     

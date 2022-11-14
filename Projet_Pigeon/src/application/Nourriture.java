@@ -12,4 +12,7 @@ public class Nourriture {
 		fraicheur = 10;
 	}
 	
+	public int getX() {return this.x;}
+	public int getY() {return this.y;}
+	public int getFraicheur() {return this.fraicheur;}
 }
