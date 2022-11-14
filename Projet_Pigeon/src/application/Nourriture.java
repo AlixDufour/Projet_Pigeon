@@ -12,12 +12,16 @@ public class Nourriture {
 		this.y = y;
 		this.size = 5;
 		Random r = new Random();
-		fraicheur = r.nextInt(10);
+		fraicheur = r.nextInt(9) + 1;
 	}
 	
 	public int getX() {return this.x;}
 
 	public int getY() {return this.y;}
+
+	public int getSize() {
+		return size;
+	}
 
 	public int getFraicheur() {return this.fraicheur;}
 
@@ -26,7 +30,9 @@ public class Nourriture {
 	}
 
 	public void decFraicheur() {
-		fraicheur--;
+		if(fraicheur > 0) {
+			fraicheur--;
+		}
 		return;
 	}
 
