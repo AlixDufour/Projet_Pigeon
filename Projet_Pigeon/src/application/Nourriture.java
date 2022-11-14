@@ -26,7 +26,9 @@ public class Nourriture {
 	}
 
 	public void decFraicheur() {
-		fraicheur--;
+		if(fraicheur > 0) {
+			fraicheur--;
+		}
 		return;
 	}
 

@@ -21,8 +21,9 @@ class Main
         m.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         while(true){
-            m.update();
+        	m.update();
         }
+        
     }
 }
 class myframe extends JFrame
@@ -41,24 +42,29 @@ class myframe extends JFrame
         p.test();
     }
 }
-class mypanel extends JPanel
+class mypanel extends JPanel implements ActionListener
 {
 
 	public ArrayList<Nourriture> listNourritures;
 	
     Pigeon pig;
     Pigeon pig2;
+    Timer time = new Timer(1000,this);
+    
+    
     
     mypanel()
     {
         pig = new Pigeon(150,50, this);
         pig2 = new Pigeon(50,50, this);
         this.listNourritures = new ArrayList<>();
+        time.start();
     }
 
     public void test(){
     	//pig.checkNourriture(listNourritures);
         repaint();
+        
     }
     
     public void addNourriture(Nourriture n) {
@@ -85,8 +91,19 @@ class mypanel extends JPanel
             g2.setPaint(Color.green);
             g2.fill(nr);
         }
-        
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+			
+		
+		for(Nourriture n : listNourritures) {
+			n.decFraicheur();
+			time.start();
+		}
+		
+		
+	}
 }
 
 
@@ -102,8 +119,6 @@ class TestMouseListener implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(e.getX());
-		System.out.println(e.getY());
 		panel.addNourriture(new Nourriture(e.getX(),e.getY()));
 	}
 
