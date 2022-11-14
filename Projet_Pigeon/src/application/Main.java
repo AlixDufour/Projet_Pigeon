@@ -73,6 +73,7 @@ class mypanel extends JPanel implements ActionListener
 
     public void paint(Graphics g)
     {
+    	
         super.paint(g);
         Graphics2D g2=(Graphics2D)g;
         Rectangle2D.Double r1=new Rectangle2D.Double(pig.x-pig.r,pig.y-pig.r,pig.r*2,pig.r*2);
