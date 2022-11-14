@@ -2,22 +2,24 @@ package application;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Random;
 
 class Pigeon implements Runnable {
 
     Thread animation;
-	public int x = 150, y = 50, dx = 1, dy = 1;
+	public int x = 150, y = 50, fx = 0, fy = 0;
 	static int r = 20, slp = 10;
     Nourriture destN;
+	boolean frayeur;
     mypanel p;
 	Color c;
-    
     
 	public Pigeon(int x, int y, mypanel p, Color col) {
         this.x = x;
         this.y = y;
         this.p = p;
 		this.c = col;
+		frayeur = false;
         
         animation=new Thread(this,"Pigeon");
         animation.start();
@@ -30,23 +32,28 @@ class Pigeon implements Runnable {
             while(true)
             {
             	
-            	boolean res = checkNourriture(p.listNourritures);
-            	
-            	if(res == true) {
-            		
-					if (x > destN.getX())
-						x -= dx;
-					else if (x < destN.getX())
-						x += dx;
-	            	
-					if (y < destN.getY())
-						y += dy;
-					else if (y > destN.getY())
-						y -= dy;
+				if (frayeur) {
+					if (comparePosition(fx, fy))
+						frayeur = false;
+					else
+						deplacement(fx, fy);
+				} else {
+					if (checkNourriture(p.listNourritures)) {
+						// On regarde si il va se faire effrayer
+						Random r = new Random();
+						if (r.nextFloat(p.probaFrayeur) < 0.0015) {
+							frayeur = true;
+							destN = null;
+							fx = r.nextInt(500);
+							fy = r.nextInt(500);
+						}
 
-            	}
-            	
-				// checkCollision();
+						else if (destN != null)
+							deplacement(destN.getX(), destN.getY());
+					}
+
+					// checkCollision();
+				}
 
 				Thread.sleep(slp);
             }
@@ -82,7 +89,26 @@ class Pigeon implements Runnable {
 				}
 			}
 		}
+	}
 
+	public boolean comparePosition(int destX, int destY) {
+		if (x == destX) {
+			if (y == destY)
+				return true;
+		}
+		return false;
+	}
+
+	public void deplacement(int destX, int destY) {
+		if (x > destX)
+			x--;
+		else if (x < destX)
+			x++;
+
+		if (y < destY)
+			y++;
+		else if (y > destY)
+			y--;
 	}
 
 	public Color getColor() {
