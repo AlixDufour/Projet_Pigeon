@@ -28,24 +28,18 @@ class Pigeon implements Runnable {
             	
             	boolean res = checkNourriture(p.listNourritures);
             	
-            	
             	if(res == true) {
             		
-	            	if(x > destN.getX()) {
-	            		x -= dx;
-	            	}else if(x < destN.getX()) {
-	            		x += dx;
-	            	}
+					if (x > destN.getX())
+						x -= dx;
+					else if (x < destN.getX())
+						x += dx;
 	            	
-	            	if(y < destN.getY()) {
-	            		y += dy;
-	            		
-	            	}else if(y > destN.getY()) {
-	            		y -= dy;
-	            	}
-	            	
-	
-	                
+					if (y < destN.getY())
+						y += dy;
+					else if (y > destN.getY())
+						y -= dy;
+
             	}
             	
             	animation.sleep(slp);
@@ -60,16 +54,14 @@ class Pigeon implements Runnable {
     	if(listNourr.size() == 0) {
     		destN = null;
     		return false;
-    	}else if(listNourr.size() == 1) {
+		} else if (destN == null) {
     		destN = listNourr.get(0);
     		return true;
     	}
     	else {
     		for(Nourriture n : listNourr) {
-    			if(n.fraicheur > destN.fraicheur) {
-    				destN = n;
-    			}
-    			
+				if (n.fraicheur > destN.fraicheur)
+					destN = n;
     		}
     		return true;
     	}

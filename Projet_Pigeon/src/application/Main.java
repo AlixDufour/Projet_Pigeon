@@ -80,7 +80,7 @@ class mypanel extends JPanel
         g2.fill(r2);
         
         for(Nourriture n : listNourritures) {
-        	Rectangle2D.Double nr =new Rectangle2D.Double(n.x-n.r,n.y-n.r,n.r*2,n.r*2);
+        	Rectangle2D.Double nr =new Rectangle2D.Double(n.x-n.size,n.y-n.size,n.size*2,n.size*2);
             g2.draw(nr);
             g2.setPaint(Color.green);
             g2.fill(nr);
