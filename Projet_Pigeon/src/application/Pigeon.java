@@ -42,7 +42,7 @@ class Pigeon implements Runnable {
 
             	}
             	
-            	animation.sleep(slp);
+				Thread.sleep(slp);
             }
         }
         catch(Exception e)
