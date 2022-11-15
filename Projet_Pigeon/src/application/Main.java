@@ -1,16 +1,25 @@
 package application;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.geom.*;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 class Main
 {
+
     public static void main(String []args)
     {
         myframe m=new myframe();
@@ -25,6 +34,7 @@ class Main
         }
         
     }
+
 }
 class myframe extends JFrame
 {
@@ -46,17 +56,27 @@ class mypanel extends JPanel implements ActionListener
 {
 
 	public ArrayList<Nourriture> listNourritures;
-	
-    Pigeon pig;
-    Pigeon pig2;
-    Timer time = new Timer(1000,this);
+	public ArrayList<Pigeon> listPigeons;
+	public int nbPigeons = 3;
+
+	static List<Color> colors;
+
+	Timer time = new Timer(3000, this);
     
     
     
     mypanel()
     {
-        pig = new Pigeon(150,50, this);
-        pig2 = new Pigeon(50,50, this);
+		setColors();
+
+		Random r = new Random();
+		listPigeons = new ArrayList<Pigeon>();
+
+		for (int i = 0; i < nbPigeons; i++) {
+			listPigeons.add(new Pigeon(r.nextInt(500 - 2 * Pigeon.r), r.nextInt(500 - 2 * Pigeon.r), this,
+					new Color(r.nextFloat(), r.nextFloat(), r.nextFloat())));
+		}
+
         this.listNourritures = new ArrayList<>();
         time.start();
     }
@@ -73,27 +93,46 @@ class mypanel extends JPanel implements ActionListener
 
     public void paint(Graphics g)
     {
-    	
+
+		Random r = new Random();
+
+		Pigeon pig = listPigeons.get(1);
+		Pigeon pig2 = listPigeons.get(0);
         super.paint(g);
         Graphics2D g2=(Graphics2D)g;
-        Rectangle2D.Double r1=new Rectangle2D.Double(pig.x-pig.r,pig.y-pig.r,pig.r*2,pig.r*2);
-        g2.draw(r1);
-        g2.setPaint(Color.red);
-        g2.fill(r1);
 
-        Rectangle2D.Double r2=new Rectangle2D.Double(pig2.x-pig2.r,pig2.y-pig2.r,pig2.r*2,pig2.r*2);
-        g2.draw(r2);
-        g2.setPaint(Color.blue);
-        g2.fill(r2);
+		for (Pigeon p : listPigeons) {
+			Rectangle2D.Double rec = new Rectangle2D.Double(p.x - Pigeon.r, p.y - Pigeon.r, Pigeon.r * 2,
+					Pigeon.r * 2);
+			g2.draw(rec);
+			g2.setPaint(p.getColor());
+			g2.fill(rec);
+		}
         
         for(Nourriture n : listNourritures) {
         	Rectangle2D.Double nr =new Rectangle2D.Double(n.x-n.size,n.y-n.size,n.size*2,n.size*2);
             g2.draw(nr);
-            g2.setPaint(Color.green);
+			g2.setPaint(colors.get(n.getFraicheur()));
             g2.fill(nr);
         }
     }
 
+	public void setColors() {
+		colors = new ArrayList<Color>();
+		// color pour 0 gris foncé
+		colors.add(new Color(94, 94, 94)); // color pour 0 gris foncé
+		colors.add(new Color(133, 126, 100)); // 1
+		colors.add(new Color(171, 158, 105)); // 2
+		colors.add(new Color(210, 190, 111)); // 3
+		colors.add(new Color(248, 222, 116)); // 4
+		colors.add(new Color(248, 202, 117)); // 5
+		colors.add(new Color(247, 182, 119)); // 6
+		colors.add(new Color(219, 129, 104)); // 7
+		colors.add(new Color(247, 162, 120)); // 8
+		colors.add(new Color(190, 95, 88)); // 9
+		colors.add(new Color(162, 62, 72)); // 10
+	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 			
@@ -102,8 +141,7 @@ class mypanel extends JPanel implements ActionListener
 			n.decFraicheur();
 			time.start();
 		}
-		
-		
+
 	}
 }
 

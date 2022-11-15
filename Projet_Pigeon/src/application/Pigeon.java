@@ -1,19 +1,23 @@
 package application;
 
+import java.awt.Color;
 import java.util.List;
 
 class Pigeon implements Runnable {
 
     Thread animation;
-    public int x=150,y=50,dx=1,dy=1,r=20,slp=10;
+	public int x = 150, y = 50, dx = 1, dy = 1;
+	static int r = 20, slp = 10;
     Nourriture destN;
     mypanel p;
+	Color c;
     
     
-    public Pigeon(int x, int y, mypanel p){
+	public Pigeon(int x, int y, mypanel p, Color col) {
         this.x = x;
         this.y = y;
         this.p = p;
+		this.c = col;
         
         animation=new Thread(this,"Pigeon");
         animation.start();
@@ -26,9 +30,10 @@ class Pigeon implements Runnable {
             while(true)
             {
             	
+            	
             	boolean res = checkNourriture(p.listNourritures);
             	
-            	if(res == true) {
+            	if(destN != null) {
             		
 					if (x > destN.getX())
 						x -= dx;
@@ -42,7 +47,9 @@ class Pigeon implements Runnable {
 
             	}
             	
-            	animation.sleep(slp);
+				
+				Thread.sleep(slp);
+				checkCollision();
             }
         }
         catch(Exception e)
@@ -66,4 +73,23 @@ class Pigeon implements Runnable {
     		return true;
     	}
     }
+    
+	public void checkCollision() {
+
+			if(destN != null) {
+				double dist = (double) Math.sqrt(Math.pow(destN.getX() - x, 2) + Math.pow(destN.getY() - y, 2));
+
+				if (dist < r + destN.getSize()) {
+					if (destN.getFraicheur() > 0) {
+						p.listNourritures.remove(destN);
+					}
+			}
+			
+		}
+
+	}
+
+	public Color getColor() {
+		return c;
+	}
 }
