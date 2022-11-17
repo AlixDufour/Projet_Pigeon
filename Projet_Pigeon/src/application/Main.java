@@ -122,16 +122,16 @@ class mypanel extends JPanel implements ActionListener
 		colors = new ArrayList<Color>();
 		// color pour 0 gris foncé
 		colors.add(new Color(94, 94, 94)); // color pour 0 gris foncé
-		colors.add(new Color(133, 126, 100)); // 1
-		colors.add(new Color(171, 158, 105)); // 2
-		colors.add(new Color(210, 190, 111)); // 3
-		colors.add(new Color(248, 222, 116)); // 4
-		colors.add(new Color(248, 202, 117)); // 5
-		colors.add(new Color(247, 182, 119)); // 6
-		colors.add(new Color(219, 129, 104)); // 7
-		colors.add(new Color(247, 162, 120)); // 8
-		colors.add(new Color(190, 95, 88)); // 9
-		colors.add(new Color(162, 62, 72)); // 10
+		colors.add(new Color(0, 255, 49)); // 1
+		colors.add(new Color(105, 255, 0)); // 2
+		colors.add(new Color(164, 255, 0)); // 3
+		colors.add(new Color(211, 255, 0)); // 4
+		colors.add(new Color(254, 255, 0)); // 5
+		colors.add(new Color(255, 216, 0)); // 6
+		colors.add(new Color(255, 173, 0)); // 7
+		colors.add(new Color(255, 130, 0)); // 8
+		colors.add(new Color(255, 83, 0)); // 9
+		colors.add(new Color(255, 0, 0)); // 10
 	}
 		
 	@Override
