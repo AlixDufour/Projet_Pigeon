@@ -19,7 +19,6 @@ import javax.swing.Timer;
 
 class Main
 {
-
     public static void main(String []args)
     {
         myframe m=new myframe();
@@ -58,6 +57,7 @@ class mypanel extends JPanel implements ActionListener
 	public ArrayList<Nourriture> listNourritures;
 	public ArrayList<Pigeon> listPigeons;
 	public int nbPigeons = 3;
+	public float probaFrayeur = 0;
 
 	static List<Color> colors;
 
@@ -84,7 +84,9 @@ class mypanel extends JPanel implements ActionListener
     public void test(){
     	//pig.checkNourriture(listNourritures);
         repaint();
-        
+		// Calcul de la probabilité des pigeons de se faire effrayer pour ce tour-ci
+		Random r = new Random();
+		probaFrayeur = r.nextFloat(10);
     }
     
     public void addNourriture(Nourriture n) {
@@ -94,10 +96,6 @@ class mypanel extends JPanel implements ActionListener
     public void paint(Graphics g)
     {
 
-		Random r = new Random();
-
-		Pigeon pig = listPigeons.get(1);
-		Pigeon pig2 = listPigeons.get(0);
         super.paint(g);
         Graphics2D g2=(Graphics2D)g;
 
@@ -105,7 +103,10 @@ class mypanel extends JPanel implements ActionListener
 			Rectangle2D.Double rec = new Rectangle2D.Double(p.x - Pigeon.r, p.y - Pigeon.r, Pigeon.r * 2,
 					Pigeon.r * 2);
 			g2.draw(rec);
-			g2.setPaint(p.getColor());
+			if (p.frayeur)
+				g2.setPaint(Color.red);
+			else
+				g2.setPaint(p.getColor());
 			g2.fill(rec);
 		}
         
