@@ -57,13 +57,13 @@ class mypanel extends JPanel implements ActionListener
 	public ArrayList<Nourriture> listNourritures;
 	public ArrayList<Pigeon> listPigeons;
 	public int nbPigeons = 3;
-	public float probaFrayeur = 0;
+	public int probaFrayeur = 0;
 
 	static List<Color> colors;
 
 	Timer time = new Timer(3000, this);
     
-    
+    boolean nlock = false;
     
     mypanel()
     {
@@ -86,8 +86,10 @@ class mypanel extends JPanel implements ActionListener
         repaint();
 		// Calcul de la probabilité des pigeons de se faire effrayer pour ce tour-ci
 		Random r = new Random();
-		probaFrayeur = r.nextFloat(10);
+		probaFrayeur = r.nextInt(10);
     }
+    
+    public boolean getNLock() {return this.nlock;}
     
     public void addNourriture(Nourriture n) {
     	this.listNourritures.add(n);
@@ -96,6 +98,8 @@ class mypanel extends JPanel implements ActionListener
     public void paint(Graphics g)
     {
 
+    	nlock = true;
+    	
         super.paint(g);
         Graphics2D g2=(Graphics2D)g;
 
@@ -110,12 +114,14 @@ class mypanel extends JPanel implements ActionListener
 			g2.fill(rec);
 		}
         
+		
         for(Nourriture n : listNourritures) {
         	Rectangle2D.Double nr =new Rectangle2D.Double(n.x-n.size,n.y-n.size,n.size*2,n.size*2);
             g2.draw(nr);
 			g2.setPaint(colors.get(n.getFraicheur()));
             g2.fill(nr);
         }
+        nlock = false;
     }
 
 	public void setColors() {
@@ -159,7 +165,10 @@ class TestMouseListener implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		panel.addNourriture(new Nourriture(e.getX(),e.getY()));
+		
+		if(!panel.getNLock()) {
+			panel.addNourriture(new Nourriture(e.getX(),e.getY()));
+		}
 	}
 
 	@Override

@@ -14,6 +14,7 @@ class Pigeon implements Runnable {
 	boolean frayeur = false;
     mypanel p;
 	Color c;
+	Random rand = new Random();
     
 	public Pigeon(int x, int y, mypanel p, Color col) {
         this.x = x;
@@ -21,6 +22,8 @@ class Pigeon implements Runnable {
         this.p = p;
 		this.c = col;
 		frayeur = false;
+		
+		
         
         animation=new Thread(this,"Pigeon");
         animation.start();
@@ -33,8 +36,23 @@ class Pigeon implements Runnable {
             while(true)
             {
             		
+            	
             	//boolean res = checkNourriture(p.listNourritures);
             	
+            	// On regarde si il va se faire effrayer
+            	
+            	
+            	float f = rand.nextFloat(1);
+
+				if (f < rand.nextFloat(0.001f)) {
+					frayeur = true;
+					destN = null;
+					slp = 5;
+					fx = rand.nextInt(500);
+					fy = rand.nextInt(500);
+				}
+				
+			
 				if (frayeur) {
 					     
 					if (comparePosition(fx, fy))
@@ -42,26 +60,10 @@ class Pigeon implements Runnable {
 					else {
 						deplacement(fx, fy);
 					}
-				} else {
-					     
-					if (checkNourriture(p.listNourritures)) {
-						
-						// On regarde si il va se faire effrayer
-						Random r = new Random();
-						if (r.nextFloat(p.probaFrayeur) < 0.0015) {
-							frayeur = true;
-							destN = null;
-							slp = 5;
-							fx = r.nextInt(500);
-							fy = r.nextInt(500);
-						}
-
-						
-						else if (destN != null) {
+					
+				} else if (checkNourriture(p.listNourritures) || destN != null) {
 							slp = 10;
 							deplacement(destN.getX(), destN.getY());
-						}
-					}
 				}
 
 					
@@ -100,7 +102,7 @@ class Pigeon implements Runnable {
 				double dist = (double) Math.sqrt(Math.pow(destN.getX() - x, 2) + Math.pow(destN.getY() - y, 2));
 
 				if (dist < r + destN.getSize()) {
-					if (destN.getFraicheur() > 0) {
+					if (destN.getFraicheur() > 0 && !p.getNLock()) {
 						p.listNourritures.remove(destN);
 					}
 			}
