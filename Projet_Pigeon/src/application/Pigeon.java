@@ -29,13 +29,10 @@ class Pigeon implements Runnable {
 
     @Override
     public void run() {
-        try
-        {
+
             while(true)
             {
             		
-            	
-            	//boolean res = checkNourriture(p.listNourritures);
             	
             	// On regarde si il va se faire effrayer
             	
@@ -64,15 +61,18 @@ class Pigeon implements Runnable {
 
 					
 				checkCollision();
-				Thread.sleep(slp);
+				
+				try {
+					Thread.sleep(slp);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				
 				}
             	
             
-        }
-        catch(Exception e)
-        {
-        }
+        
+
     }
     
     public boolean checkNourriture(List<Nourriture> listNourr) {
@@ -80,7 +80,11 @@ class Pigeon implements Runnable {
     		destN = null;
     		return false;
 		} else if (destN == null) {
-    		destN = listNourr.get(0);
+    		try {
+				destN = listNourr.get(0);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     		return true;
     	}
     	else {
@@ -99,7 +103,11 @@ class Pigeon implements Runnable {
 
 				if (dist < r + destN.getSize()) {
 					if (destN.getFraicheur() > 0 && !p.getNLock()) {
-						p.listNourritures.remove(destN);
+						try {
+							p.listNourritures.remove(destN);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 			}
 			

@@ -44,7 +44,7 @@ class myframe extends JFrame
         p=new mypanel();
         Container c=getContentPane();
         c.add(p);
-        p.addMouseListener(new TestMouseListener(p));
+        p.addMouseListener(new MouseListenerImpl(p));
     }
 
     public void update(){
@@ -143,7 +143,6 @@ class mypanel extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 			
-		
 		for(Nourriture n : listNourritures) {
 			n.decFraicheur();
 			time.start();
@@ -154,11 +153,11 @@ class mypanel extends JPanel implements ActionListener
 
 
 
-class TestMouseListener implements MouseListener{
+class MouseListenerImpl implements MouseListener{
 
 	mypanel panel;
 	
-	public TestMouseListener(mypanel panel) {
+	public MouseListenerImpl(mypanel panel) {
 		this.panel = panel;
 	}
 	
