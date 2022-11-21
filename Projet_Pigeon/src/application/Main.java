@@ -57,7 +57,7 @@ class mypanel extends JPanel implements ActionListener
 	public ArrayList<Nourriture> listNourritures;
 	public ArrayList<Pigeon> listPigeons;
 	public int nbPigeons = 3;
-	public int probaFrayeur = 0;
+	public float probaFrayeur = 0;
 
 	static List<Color> colors;
 
@@ -86,7 +86,7 @@ class mypanel extends JPanel implements ActionListener
         repaint();
 		// Calcul de la probabilité des pigeons de se faire effrayer pour ce tour-ci
 		Random r = new Random();
-		probaFrayeur = r.nextInt(10);
+		probaFrayeur = r.nextFloat(0.003f);
     }
     
     public boolean getNLock() {return this.nlock;}

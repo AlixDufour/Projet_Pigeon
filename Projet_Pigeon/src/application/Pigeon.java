@@ -23,8 +23,6 @@ class Pigeon implements Runnable {
 		this.c = col;
 		frayeur = false;
 		
-		
-        
         animation=new Thread(this,"Pigeon");
         animation.start();
     }
@@ -41,10 +39,9 @@ class Pigeon implements Runnable {
             	
             	// On regarde si il va se faire effrayer
             	
-            	
             	float f = rand.nextFloat(1);
 
-				if (f < rand.nextFloat(0.001f)) {
+				if (f < p.probaFrayeur) {
 					frayeur = true;
 					destN = null;
 					slp = 5;
@@ -52,7 +49,6 @@ class Pigeon implements Runnable {
 					fy = rand.nextInt(500);
 				}
 				
-			
 				if (frayeur) {
 					     
 					if (comparePosition(fx, fy))
