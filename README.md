@@ -33,5 +33,12 @@ Pour lancer l'exécutable, il faut utiliser un invite de commande et lancer la c
 
 ```
   java -jar Pigeons.jar
-  
 ```
+
+Une fenêtre s'affiche ensuite. Les pigeons sont au nombre de 3 et sont représentés par des rectangles de couleurs aléatoires. Au départ, il n'y a pas de nourriture, les pigeons reste donc immobiles (tant qu'ils ne se font pas effrayés). 
+
+Pour ajouter de la nourriture, il suffit de cliquer à l'endroit de la fenêtre ou l'on souhaite en ajouter. La fraicheur de la nourriture est indiqué par sa couleur et évolue au fil du temps. Une nourriture qui n'est plus frâiche est en noir et ne sera pas mangée. 
+
+Les pigeons se dirigent vers la nourriture la plus frâiche.
+
+A n'importe quel moment, les pigeons peuvent être effrayés et s'enfuiront. Dans ce cas, leur couleur sera rouge.
