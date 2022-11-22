@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Color;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +27,7 @@ class Pigeon implements Runnable {
         animation=new Thread(this,"Pigeon");
         animation.start();
     }
-
+	
     @Override
     public void run() {
 
@@ -38,6 +39,7 @@ class Pigeon implements Runnable {
             	
             	float f = rand.nextFloat(1);
 
+            	
 				if (f < p.probaFrayeur) {
 					frayeur = true;
 					destN = null;
@@ -54,7 +56,7 @@ class Pigeon implements Runnable {
 						deplacement(fx, fy);
 					}
 					
-				} else if (checkNourriture(p.listNourritures) || destN != null) {
+				} else if (checkNourriture() || destN != null) {
 							slp = 10;
 							deplacement(destN.getX(), destN.getY());
 				}
@@ -68,50 +70,56 @@ class Pigeon implements Runnable {
 					e.printStackTrace();
 				}
 				
+				
+				
+				
 				}
             	
-            
-        
-
     }
     
-    public boolean checkNourriture(List<Nourriture> listNourr) {
-    	if(listNourr.size() == 0) {
+    public boolean checkNourriture() {
+    	if(p.listNourritures.size() == 0) {
     		destN = null;
     		return false;
 		} else if (destN == null) {
     		try {
-				destN = listNourr.get(0);
-			} catch (Exception e) {
-				e.printStackTrace();
+				destN = p.listNourritures.get(0);
+			} catch (IndexOutOfBoundsException e) {
+				System.err.println("Caught IndexOutOfBoundsException: " + e.getMessage());
 			}
     		return true;
     	}
     	else {
-    		for(Nourriture n : listNourr) {
-				if (n.fraicheur > destN.fraicheur || !listNourr.contains(destN))
-					destN = n;
+    		synchronized (p.listNourritures) {
+	    		for(Nourriture n : p.listNourritures) {
+					if (n.fraicheur > destN.fraicheur || !p.listNourritures.contains(destN))
+						destN = n;
+	    		}
     		}
+
     		return true;
     	}
     }
     
-	public void checkCollision() {
-
+	public synchronized void checkCollision() {
+		
 			if(destN != null) {
+				
 				double dist = (double) Math.sqrt(Math.pow(destN.getX() - x, 2) + Math.pow(destN.getY() - y, 2));
-
-				if (dist < r + destN.getSize()) {
-					if (destN.getFraicheur() > 0 && !p.getNLock()) {
+				//System.out.println(dist);
+						
+					// On ne retire la nourriture que si la nourriture est fraiche et que le verrou n'est pas activé
+					if (dist < r + destN.getSize() && destN.getFraicheur() > 0) {
 						try {
 							p.listNourritures.remove(destN);
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (NullPointerException e) {
+							System.err.println("Caught NullPointerException: " + e.getMessage());
+						}catch (ConcurrentModificationException e) {
+							System.err.println("Caught ConcurrentModificationException: " + e.getMessage());
 						}
 					}
+					
 			}
-			
-		}
 	}
 
 	public boolean comparePosition(int destX, int destY) {
